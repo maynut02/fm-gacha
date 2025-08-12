@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1001,
+    "name": "화노",
+    "rare": "star5"
+  },
+  {
+    "id": 1002,
+    "name": "아카네",
+    "rare": "star4"
+  },
+  {
+    "id": 1003,
+    "name": "정천",
+    "rare": "star6"
+  },
+  {
+    "id": 1004,
+    "name": "계항",
+    "rare": "star5"
+  },
+  {
+    "id": 1005,
+    "name": "리프",
+    "rare": "star5"
+  },
+  {
+    "id": 1006,
+    "name": "센슈",
+    "rare": "star5"
+  },
+  {
+    "id": 1007,
+    "name": "성량",
+    "rare": "star4"
+  },
+  {
+    "id": 1008,
+    "name": "충원",
+    "rare": "star4"
+  },
+  {
+    "id": 1009,
+    "name": "명상",
+    "rare": "star4"
+  },
+  {
+    "id": 1011,
+    "name": "프레이즈",
+    "rare": "star5"
+  },
+  {
+    "id": 1012,
+    "name": "화청",
+    "rare": "star4"
+  },
+  {
+    "id": 1013,
+    "name": "녹설",
+    "rare": "star4"
+  },
+  {
+    "id": 1014,
+    "name": "남교",
+    "rare": "star5"
+  },
+  {
+    "id": 1015,
+    "name": "준지",
+    "rare": "star4"
+  },
+  {
+    "id": 1016,
+    "name": "홍포",
+    "rare": "star5"
+  },
+  {
+    "id": 1017,
+    "name": "항사",
+    "rare": "star6"
+  },
+  {
+    "id": 1018,
+    "name": "옥로",
+    "rare": "star4"
+  },
+  {
+    "id": 1019,
+    "name": "연심",
+    "rare": "star5"
+  },
+  {
+    "id": 1021,
+    "name": "용정",
+    "rare": "star6"
+  },
+  {
+    "id": 1022,
+    "name": "목면",
+    "rare": "star5"
+  },
+  {
+    "id": 1024,
+    "name": "칸나기",
+    "rare": "star6"
+  },
+  {
+    "id": 1025,
+    "name": "조안",
+    "rare": "star5"
+  },
+  {
+    "id": 1026,
+    "name": "번하",
+    "rare": "star5"
+  },
+  {
+    "id": 1027,
+    "name": "월백",
+    "rare": "star6"
+  },
+  {
+    "id": 1028,
+    "name": "천마",
+    "rare": "star5"
+  },
+  {
+    "id": 1029,
+    "name": "다이아",
+    "rare": "star4"
+  },
+  {
+    "id": 1030,
+    "name": "하트",
+    "rare": "star4"
+  },
+  {
+    "id": 1031,
+    "name": "스페이드",
+    "rare": "star5"
+  },
+  {
+    "id": 1032,
+    "name": "잉그리드",
+    "rare": "star5"
+  },
+  {
+    "id": 1033,
+    "name": "감린",
+    "rare": "star5"
+  },
+  {
+    "id": 1034,
+    "name": "동명",
+    "rare": "star5"
+  },
+  {
+    "id": 1035,
+    "name": "은광",
+    "rare": "star5"
+  },
+  {
+    "id": 1036,
+    "name": "스패로우",
+    "rare": "star4"
+  },
+  {
+    "id": 1039,
+    "name": "카라스",
+    "rare": "star6"
+  },
+  {
+    "id": 1042,
+    "name": "은봉",
+    "rare": "star5"
+  },
+  {
+    "id": 1043,
+    "name": "유란",
+    "rare": "star5"
+  },
+  {
+    "id": 1044,
+    "name": "야래",
+    "rare": "star4"
+  },
+  {
+    "id": 1045,
+    "name": "오동",
+    "rare": "star6"
+  },
+  {
+    "id": 1046,
+    "name": "전영",
+    "rare": "star6"
+  },
+  {
+    "id": 1048,
+    "name": "수향",
+    "rare": "star4"
+  },
+  {
+    "id": 1049,
+    "name": "섬우",
+    "rare": "star4"
+  },
+  {
+    "id": 1050,
+    "name": "서향",
+    "rare": "star4"
+  },
+  {
+    "id": 1051,
+    "name": "음희",
+    "rare": "star6"
+  },
+  {
+    "id": 1052,
+    "name": "미샤",
+    "rare": "star5"
+  },
+  {
+    "id": 1053,
+    "name": "카츠",
+    "rare": "star3"
+  },
+  {
+    "id": 1054,
+    "name": "천성",
+    "rare": "star5"
+  },
+  {
+    "id": 1055,
+    "name": "차슈",
+    "rare": "star3"
+  },
+  {
+    "id": 1056,
+    "name": "츠보미",
+    "rare": "star3"
+  },
+  {
+    "id": 1057,
+    "name": "진주",
+    "rare": "star3"
+  },
+  {
+    "id": 1058,
+    "name": "새러데이",
+    "rare": "star3"
+  },
+  {
+    "id": 1059,
+    "name": "코하루",
+    "rare": "star3"
+  },
+  {
+    "id": 1060,
+    "name": "문경",
+    "rare": "star3"
+  },
+  {
+    "id": 1061,
+    "name": "유이",
+    "rare": "star6"
+  },
+  {
+    "id": 1062,
+    "name": "석연",
+    "rare": "star5"
+  },
+  {
+    "id": 1063,
+    "name": "쇄은자",
+    "rare": "star6"
+  },
+  {
+    "id": 1064,
+    "name": "설예",
+    "rare": "star6"
+  },
+  {
+    "id": 1065,
+    "name": "자회",
+    "rare": "star6"
+  },
+  {
+    "id": 1066,
+    "name": "리치",
+    "rare": "star6"
+  },
+  {
+    "id": 1067,
+    "name": "가천",
+    "rare": "star5"
+  },
+  {
+    "id": 1068,
+    "name": "추이",
+    "rare": "star6"
+  },
+  {
+    "id": 1069,
+    "name": "하카미",
+    "rare": "star5"
+  },
+  {
+    "id": 1070,
+    "name": "금계",
+    "rare": "star6"
+  },
+  {
+    "id": 1071,
+    "name": "서비",
+    "rare": "star6"
+  },
+  {
+    "id": 1072,
+    "name": "부지춘",
+    "rare": "star6"
+  },
+  {
+    "id": 1073,
+    "name": "절경",
+    "rare": "star6"
+  },
+  {
+    "id": 1074,
+    "name": "각주",
+    "rare": "star5"
+  },
+  {
+    "id": 1075,
+    "name": "머피",
+    "rare": "star6"
+  },
+  {
+    "id": 1077,
+    "name": "알레프",
+    "rare": "star6"
+  },
+  {
+    "id": 1078,
+    "name": "테다레",
+    "rare": "star6"
+  },
+  {
+    "id": 1079,
+    "name": "음화",
+    "rare": "star6"
+  }
+]

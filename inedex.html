@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="banner-buttons"></div>
+    <main>
+      <div class="sidebar">
+        <div class="info-box">
+          <div>
+            <div class="banner-type"></div>
+            <h2 class="banner-name"></h2>
+          </div>
+          <div class="stats-panel">
+            <span style="font-weight: 700; padding-bottom: 6px;">통계</span>
+            <div class="card">
+              <span>누적 소모 월상석 가루</span>
+              <div>
+                <img src="./img/pqia4y.png" height="20px"> 0
+              </div>
+            </div>
+            <hr>
+            <div class="card">
+              <span style="font-weight: 700; text-align: center;">교대 핫라인</span>
+              <span>총 영입 횟수: 0</span>
+              <span>6성: 0</span>
+              <span>5성: 0</span>
+              <span>4성: 0</span>
+              <span>3성: 0</span>
+            </div>
+            <hr>
+            <div class="card">
+              <span style="font-weight: 700; text-align: center;">영구 핫라인</span>
+              <span>총 영입 횟수: 0</span>
+              <span>6성: 0</span>
+              <span>5성: 0</span>
+              <span>4성: 0</span>
+              <span>3성: 0</span>
+            </div>
+          </div>
+          <div class="stats-buttons">
+            <button>통신 기록</button>
+            <button>초기화</button>
+          </div>
+        </div>
+      </div>
+      <div class="main">
+        <div class="container">
+          <div class="count">
+            <span>80회 확정: 6성 특수 요원 (픽업 특수 요원)</span>
+            <span>10회 확정: 5성 이상의 특수 요원</span>
+          </div>
+          <div class="gacha">
+            <div class="gacha-images">
+              <div class="star3">
+                <img src="./img/character/1001/0.png" alt="캐릭터id">
+              </div>
+            </div>
+          </div>
+          <div class="draw-buttons">
+            <button class="draw-1">
+              영입 1회
+              <div><img src="./img/pqia4y.png" alt="월상석" height="16px">x160</div>
+            </button>
+            <button class="draw-10">
+              영입 10회
+              <div><img src="./img/pqia4y.png" alt="월상석" height="16px">x1600</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let bannerData;
+      let characterMap;
+
+      (async () => {
+        try {
+          const [bannerResponse, characterResponse] = await Promise.all([
+            fetch('banner.json'),
+            fetch('character.json')
+          ]);
+          const banners = await bannerResponse.json();
+          const characters = await characterResponse.json();
+
+          bannerData = banners;
+          characterMap = new Map(characters.map(char => [char.id, char]));
+          console.log("✅ 데이터 로딩 및 준비 완료!");
+
+          const buttonContainer = document.querySelector('.banner-buttons');
+          
+          const showBanner = (bannerKey) => {
+            const banner = bannerData[bannerKey];
+            if (!banner) return;
+
+            document.querySelector('.banner-type').textContent = `[ ${banner.type} ]`;
+            document.querySelector('.banner-name').textContent = banner.name;
+            
+            document.querySelectorAll('.banner-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.banner-btn[data-banner-key="${bannerKey}"]`).classList.add('active');
+            
+            // --- [수정 ①] 선택한 배너 키를 localStorage에 저장하기 ---
+            localStorage.setItem('selectedBannerKey', bannerKey);
+            
+            console.log(`배너 표시: ${banner.name} (저장 완료)`);
+          };
+
+          for (const bannerKey in bannerData) {
+            const banner = bannerData[bannerKey];
+            const button = document.createElement('button');
+            button.className = 'banner-btn';
+            button.dataset.bannerKey = bannerKey; 
+            
+            const img = document.createElement('img');
+            img.src = banner.img;
+            img.alt = banner.name;
+
+            button.appendChild(img);
+            
+            button.addEventListener('click', () => {
+              showBanner(bannerKey);
+            });
+
+            buttonContainer.appendChild(button);
+          }
+          console.log("✅ 배너 버튼 생성 및 이벤트 연결 완료!");
+
+          // --- [수정 ②] 최초 접속 시 localStorage 확인 후 기본 배너 설정 ---
+          // localStorage에서 저장된 키를 먼저 불러옵니다.
+          const savedBannerKey = localStorage.getItem('selectedBannerKey');
+          // bannerData에 저장된 키가 유효한지 확인합니다.
+          const initialBannerKey = (savedBannerKey && bannerData[savedBannerKey]) 
+                                    ? savedBannerKey 
+                                    : Object.keys(bannerData)[0];
+
+          if (initialBannerKey) {
+            showBanner(initialBannerKey);
+          }
+
+        } catch (error) {
+          console.error("오류가 발생했습니다:", error);
+          document.querySelector('.main').textContent = '데이터를 불러오는 데 실패했습니다.';
+        }
+      })();
+    </script>
+  </body>
+</html>

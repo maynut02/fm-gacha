@@ -1,0 +1,247 @@
+:root{
+  --bg1: #121212;
+  --bg2: #191919;
+  --panel: #222;
+  --line1: #333;
+  --line2: #444;
+  --text: #fff;
+
+  --banner-h: 80px;
+}
+*{ box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg2);
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  width: 350px; 
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+main {
+  flex: 1;
+  display: flex;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  padding: 15px;
+  padding-left: 0;
+  max-height: 650px;
+}
+
+.main .container {
+  width: 100%;
+  background: var(--bg1);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.banner-buttons {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  padding-bottom: 0;
+}
+
+.banner-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  border: 2px solid var(--bg2);
+}
+
+.banner-btn.active {
+  border: 2px solid var(--text);
+}
+
+.banner-btn img {
+  height: var(--banner-h);
+}
+
+.info-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.banner-type {
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+}
+
+.banner-name {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+.stats-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-panel hr {
+  width: 100%;
+  height: 1px;
+  background: var(--line2);
+  border: none;
+  margin: 10px 0;
+}
+
+.stats-panel .card {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.stats-panel .card img {
+  vertical-align: middle;
+}
+
+.info-box .stats-buttons {
+  padding-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.stats-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #383838;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stats-buttons button:hover {
+  background: #292929;
+}
+
+.container .count {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.container .draw-buttons {
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: end;
+}
+
+.draw-buttons button {
+  width: 230px;
+  height: 50px;
+  border: none;
+  background: var(--panel);
+  cursor: pointer;
+  padding: 0;
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.draw-buttons button:hover {
+  background: #1c1c1c;
+}
+
+.draw-buttons button:hover div {
+  background: #292929;
+}
+
+.draw-buttons button div {
+  background: #383838;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.container .gacha {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.container .gacha-images {
+  display: grid;
+  grid-template-columns: repeat(5, 130px);
+  gap: 20px;
+  align-items: end;
+}
+
+.container .gacha-images div {
+  height: 100%;
+  display: flex;
+  align-items: end;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  cursor: pointer;
+}
+
+.container .gacha-images div:hover {
+  transform: scale(1.05);
+}
+
+.container .gacha-images .star6 {
+  background: rgb(255, 112, 45);
+  box-shadow: 0 0 14px rgba(255, 112, 45, 0.6), 0 0 28px rgba(255, 112, 45, 0.4);
+}
+
+.container .gacha-images .star5 {
+  background: rgb(219, 199, 108);
+  box-shadow: 0 0 14px rgba(219, 199, 108, 0.6), 0 0 28px rgba(219, 199, 108, 0.4);
+}
+
+.container .gacha-images .star4 {
+  background: rgb(189, 127, 255);
+  box-shadow: 0 0 14px rgba(189, 127, 255, 0.6), 0 0 28px rgba(189, 127, 255, 0.4);
+}
+
+.container .gacha-images .star3 {
+  background: rgb(103, 201, 251);
+  box-shadow: 0 0 14px rgba(103, 201, 251, 0.6), 0 0 28px rgba(103, 201, 251, 0.4);
+}
+
+.container .gacha img {
+  width: 100%;
+  
+}
