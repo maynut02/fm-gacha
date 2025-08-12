@@ -219,6 +219,14 @@ main {
   gap: 10px;
 }
 
+.mobile .draw-buttons button {
+  font-size: 14px;
+}
+
+.mobile .draw-buttons button div {
+  font-size: 12px;
+}
+
 .draw-buttons button:hover {
   background: #1c1c1c;
 }
