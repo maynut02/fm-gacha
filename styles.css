@@ -10,6 +10,20 @@
 }
 *{ box-sizing: border-box; }
 
+body::-webkit-scrollbar {
+  width: 6px; 
+  height: 6px; 
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, .0);
+}
+
 body {
   font-family: 'Noto Sans KR', sans-serif;
   background: var(--bg2);
@@ -24,11 +38,12 @@ body {
 }
 
 .sidebar {
-  width: 350px; 
+  width: 300px; 
   padding: 15px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  min-width: 210px;
 }
 
 main {
@@ -36,12 +51,20 @@ main {
   display: flex;
 }
 
+.mobile main {
+  flex-direction: column;
+}
+
 .main {
   flex: 1;
   display: flex;
   padding: 15px;
   padding-left: 0;
-  max-height: 650px;
+  max-height: 700px;
+}
+
+.mobile .main {
+  padding-left: 15px;
 }
 
 .main .container {
@@ -58,6 +81,25 @@ main {
   gap: 15px;
   padding: 15px;
   padding-bottom: 0;
+}
+
+.mobile .banner-buttons {
+  overflow-x: auto;
+  padding-bottom: 15px;
+}
+
+.banner-buttons::-webkit-scrollbar {
+  width: 6px; 
+  height: 6px; 
+}
+
+.banner-buttons::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px;
+}
+
+.banner-buttons::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, .0);
 }
 
 .banner-btn {
@@ -85,6 +127,10 @@ main {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.mobile .sidebar {
+  width: 100%;
 }
 
 .banner-type {
@@ -202,12 +248,12 @@ main {
 
 .container .gacha-images {
   display: grid;
-  grid-template-columns: repeat(5, 130px);
+  grid-template-columns: repeat(5, minmax(auto, 130px));
   gap: 20px;
   align-items: end;
 }
 
-.container .gacha-images div {
+.gacha-images .result-char {
   height: 100%;
   display: flex;
   align-items: end;
@@ -215,9 +261,11 @@ main {
   overflow: hidden;
   transition: transform .2s ease, box-shadow .2s ease;
   cursor: pointer;
+  aspect-ratio: 5/7;
+  position: relative;
 }
 
-.container .gacha-images div:hover {
+.gacha-images .result-char:hover {
   transform: scale(1.05);
 }
 
@@ -244,4 +292,93 @@ main {
 .container .gacha img {
   width: 100%;
   
+}
+
+.result-char span {
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mobile .result-char span {
+  font-size: 12px;
+}
+
+.history-popup {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  background: rgba(10, 10, 10, 0.7);
+}
+
+.popup-scroll {
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+  background: var(--bg2);
+  border-radius: 15px;
+  border: 1px solid var(--line1);
+  padding: 20px;
+  padding-right: 4px;
+  position: relative;
+}
+
+.history-list::-webkit-scrollbar {
+  width: 6px;  
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, .0);
+}
+
+.history-popup.closed {
+  display: none;
+}
+
+.history-list {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  padding-right: 16px;
+}
+
+.history-close-btn {
+  position: absolute;
+  z-index: 100;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--line2);
+}
+
+.history-item img {
+  width: 30px;
 }
