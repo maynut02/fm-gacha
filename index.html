@@ -126,13 +126,11 @@
                 }
             }
             gachaState = loaded;
-            console.log("✅ 저장된 통계 데이터를 불러왔습니다.");
         }
       };
 
       const saveState = () => {
         localStorage.setItem('gachaState', JSON.stringify(gachaState));
-        console.log("✅ 현재 통계 데이터를 저장했습니다.");
       };
 
       const updateStatsUI = () => {
@@ -312,12 +310,10 @@
         document.querySelector('.gacha-images').innerHTML = '';
       };
       
-      // [수정] 기록을 팝업에 표시하도록 로직 변경
       const showHistory = () => {
         const popup = document.querySelector('.history-popup');
         const list = document.querySelector('.history-list');
         
-        // 이전 기록 삭제 (닫기 버튼은 제외)
         const oldItems = list.querySelectorAll('.history-item');
         oldItems.forEach(item => item.remove());
 
@@ -333,7 +329,7 @@
                 historyItem.className = 'history-item';
 
                 const icon = document.createElement('img');
-                icon.src = `./img/character/${item.id}/icon.png`; // 아이콘 경로
+                icon.src = `./img/character/${item.id}/icon.png`;
                 icon.alt = item.name;
                 icon.className = `history-icon ${item.rare}`;
 
@@ -358,7 +354,7 @@
             list.appendChild(fragment);
         }
         
-        popup.classList.remove('closed'); // 팝업 표시
+        popup.classList.remove('closed');
       };
 
 
@@ -373,7 +369,6 @@
 
           bannerData = banners;
           characterMap = new Map(characters.map(char => [char.id, char]));
-          console.log("✅ 데이터 로딩 및 준비 완료!");
 
           loadState(); 
           updateStatsUI();
@@ -416,7 +411,6 @@
 
             buttonContainer.appendChild(button);
           }
-          console.log("✅ 배너 버튼 생성 및 이벤트 연결 완료!");
 
           const savedBannerKey = localStorage.getItem('selectedBannerKey');
           const initialBannerKey = (savedBannerKey && bannerData[savedBannerKey]) 
@@ -430,7 +424,6 @@
           document.querySelector('.draw-1').addEventListener('click', () => handleDraw(1));
           document.querySelector('.draw-10').addEventListener('click', () => handleDraw(10));
           
-          // [수정] 통신 기록 버튼과 닫기 버튼 이벤트 리스너
           document.querySelector('.stats-buttons button:nth-of-type(1)').addEventListener('click', showHistory);
           document.querySelector('.stats-buttons button:nth-of-type(2)').addEventListener('click', handleReset);
           document.querySelector('.history-close-btn').addEventListener('click', () => {
