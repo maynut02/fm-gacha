@@ -52,7 +52,7 @@
       <div class="main">
         <div class="container">
           <div class="count">
-            <span>80회 확정: 6성 특수 요원 (픽업 특수 요원)</span>
+            <span>70회 확정: 6성 특수 요원 (픽업 특수 요원)</span>
             <span>10회 확정: 5성 이상의 특수 요원</span>
           </div>
           <div class="gacha">
@@ -161,7 +161,7 @@
         const pity6El = document.querySelector('.count span:nth-of-type(1)');
         const pity5El = document.querySelector('.count span:nth-of-type(2)');
         
-        const pullsTo6Star = 80 - pityCounters.pity6Star;
+        const pullsTo6Star = 70 - pityCounters.pity6Star;
         const pullsTo5Star = 10 - pityCounters.pity5Star;
 
         let guaranteedText = (banner.pickup !== 0) ? " (픽업 특수 요원)" : "";
@@ -200,7 +200,7 @@
         });
 
         let rarity;
-        if (currentPity.pity6Star >= 80) {
+        if (currentPity.pity6Star >= 70) {
           rarity = 'star6';
         } else if (currentPity.pity5Star >= 10) {
           rarity = (Math.random() < 0.015) ? 'star6' : 'star5';
