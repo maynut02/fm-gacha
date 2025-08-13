@@ -40,7 +40,7 @@ body {
 main {
   flex: 1;
   display: flex;
-  overflow: hidden; /* Prevent main from causing scrollbars */
+  overflow: hidden;
 }
 
 .hidden {
@@ -56,16 +56,18 @@ main {
   overflow-x: auto;
 }
 
+main::-webkit-scrollbar,
 .banner-selector::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-
+main::-webkit-scrollbar-thumb,
 .banner-selector::-webkit-scrollbar-thumb {
   background: #aaa;
   border-radius: 10px;
 }
 
+main::-webkit-scrollbar-track,
 .banner-selector::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, .0);
 }
@@ -184,12 +186,11 @@ main {
   display: flex;
   padding: 15px;
   padding-left: 0;
-  /* max-height has been removed */
 }
 
 .gacha-area__container {
   width: 100%;
-  height: 100%; /* Fill parent height */
+  height: 100%;
   background: var(--bg1);
   border-radius: 15px;
   display: flex;
@@ -271,6 +272,12 @@ main {
   box-shadow: 0 0 14px rgba(103, 201, 251, 0.6), 0 0 28px rgba(103, 201, 251, 0.4);
 }
 
+/* --- Rarity Text Colors --- */
+.text-rarity-star6 { color: rgb(255, 112, 45); font-weight: 700; }
+.text-rarity-star5 { color: rgb(219, 199, 108); font-weight: 700; }
+.text-rarity-star4 { color: rgb(189, 127, 255); font-weight: 700; }
+.text-rarity-star3 { color: rgb(103, 201, 251); font-weight: 700; }
+
 
 /* --- Draw Controls --- */
 .draw-controls {
@@ -317,9 +324,9 @@ main {
 }
 
 /* --- History Area (Replaces Popup) --- */
-.history-area__container {
+.history-area__container, .detail-area__container {
     width: 100%;
-    height: 100%; /* Fill parent height */
+    height: 100%;
     background: var(--bg1);
     border-radius: 15px;
     padding: 20px;
@@ -329,16 +336,19 @@ main {
     overflow-y: auto;
 }
 
-.history-area__container::-webkit-scrollbar {
+.history-area__container::-webkit-scrollbar,
+.detail-area__container::-webkit-scrollbar {
   width: 6px;  
 }
 
-.history-area__container::-webkit-scrollbar-thumb {
+.history-area__container::-webkit-scrollbar-thumb,
+.detail-area__container::-webkit-scrollbar-thumb {
   background: #aaa;
   border-radius: 10px;
 }
 
-.history-area__container::-webkit-scrollbar-track {
+.history-area__container::-webkit-scrollbar-track,
+.detail-area__container::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, .0);
 }
 
@@ -377,12 +387,74 @@ main {
   display: block;
 }
 
+/* --- Detail Area --- */
+.detail-section {
+  padding: 15px;
+  background: var(--bg2);
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.detail-section__title {
+  font-size: 1.2em;
+  font-weight: 700;
+  border-bottom: 1px solid var(--line2);
+  padding-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.detail-section p, .detail-section li {
+  font-size: 0.95em;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.detail-section ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.detail-rateup-list {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-rateup-list__item {
+  text-align: center;
+  font-weight: 700;
+}
+
+.detail-rateup-list__item img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  border: 3px solid var(--line1);
+}
+
+.detail-char-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detail-char-list span {
+  background: var(--panel);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
 
 /* --- Mobile / Responsive Styles --- */
 @media (max-width: 768px) {
   main {
     flex-direction: column;
-    overflow: auto; /* Allow scrolling on mobile */
+    overflow: auto;
   }
 
   .sidebar {
@@ -480,5 +552,14 @@ main {
   .rarity-star3 {
     background: rgb(103, 201, 251);
     box-shadow: 0 0 7px rgba(103, 201, 251, 0.6), 0 0 14px rgba(103, 201, 251, 0.4);
+  }
+
+  .detail-rateup-list {
+    gap: 10px;
+  }
+
+  .detail-rateup-list__item img {
+    width: 70px;
+    height: 70px;
   }
 }

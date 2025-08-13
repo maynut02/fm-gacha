@@ -27,25 +27,28 @@
             <hr class="stats-panel__divider">
             <div class="stats-panel__card js-stats-rotation">
               <span style="font-weight: 700; text-align: center;">교대 핫라인</span>
-              <span>총 영입 횟수: 0</span>
-              <span>6성: 0</span>
-              <span>5성: 0</span>
-              <span>4성: 0</span>
-              <span>3성: 0</span>
+              <span><span class="text-rarity-star6">6★</span>: 0</span>
+              <span><span class="text-rarity-star5">5★</span>: 0</span>
+              <span><span class="text-rarity-star4">4★</span>: 0</span>
+              <span><span class="text-rarity-star3">3★</span>: 0</span>
             </div>
             <hr class="stats-panel__divider">
             <div class="stats-panel__card js-stats-permanent">
               <span style="font-weight: 700; text-align: center;">영구 핫라인</span>
-              <span>총 영입 횟수: 0</span>
-              <span>6성: 0</span>
-              <span>5성: 0</span>
-              <span>4성: 0</span>
-              <span>3성: 0</span>
+              <span><span class="text-rarity-star6">6★</span>: 0</span>
+              <span><span class="text-rarity-star5">5★</span>: 0</span>
+              <span><span class="text-rarity-star4">4★</span>: 0</span>
+              <span><span class="text-rarity-star3">3★</span>: 0</span>
             </div>
           </div>
-          <div class="stats-panel__actions">
-            <button class="stats-panel__button js-toggle-history">통신 기록</button>
-            <button class="stats-panel__button js-reset">초기화</button>
+          <div>
+            <div class="stats-panel__actions">
+              <button class="stats-panel__button js-toggle-details">상세정보</button>
+              <button class="stats-panel__button js-reset">초기화</button>
+            </div>
+            <div class="stats-panel__actions">
+              <button class="stats-panel__button js-toggle-history">통신 기록</button>
+            </div>
           </div>
         </div>
       </div>
@@ -70,6 +73,7 @@
           </div>
         </div>
         <div class="history-area__container hidden"></div>
+        <div class="detail-area__container hidden"></div>
       </div>
     </main>
     
@@ -79,7 +83,7 @@
 
       let gachaState = {
         totalSpent: 0,
-        history: [], // Now stores arrays of pulls (groups)
+        history: [], 
         stats: {
           "교대 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
           "영구 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
@@ -93,29 +97,20 @@
       const loadState = () => {
         const savedState = localStorage.getItem('gachaState');
         if (savedState) {
-            let loaded = JSON.parse(savedState);
-            // Basic migration check: if history contains non-objects, it's likely the old format.
-            // For simplicity, we'll just let new history be created in the new format.
-            // A more robust solution would involve a proper migration script.
-            if (loaded.history && loaded.history.length > 0 && !loaded.history[0].pulls) {
-                console.log("Old history format detected. It will be cleared on the next pull.");
-                // To prevent errors, we could clear it or try to convert it.
-                // For this request, we'll just let it be overwritten.
+          let loaded = JSON.parse(savedState);
+          if (!loaded.pity) {
+            loaded.pity = {
+              "교대 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
+              "영구 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
+            };
+          } else {
+            for (const key in loaded.pity) {
+              if (loaded.pity[key].guaranteedPickup === undefined) {
+                loaded.pity[key].guaranteedPickup = false;
+              }
             }
-
-            if (!loaded.pity) {
-                loaded.pity = {
-                    "교대 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
-                    "영구 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
-                };
-            } else {
-                for (const key in loaded.pity) {
-                    if (loaded.pity[key].guaranteedPickup === undefined) {
-                        loaded.pity[key].guaranteedPickup = false;
-                    }
-                }
-            }
-            gachaState = loaded;
+          }
+          gachaState = loaded;
         }
       };
 
@@ -128,19 +123,17 @@
         
         const rotationStats = gachaState.stats["교대 핫라인"];
         const rotationPanel = document.querySelector('.js-stats-rotation');
-        rotationPanel.children[1].textContent = `총 영입 횟수: ${rotationStats.total}`;
-        rotationPanel.children[2].textContent = `6성: ${rotationStats.star6}`;
-        rotationPanel.children[3].textContent = `5성: ${rotationStats.star5}`;
-        rotationPanel.children[4].textContent = `4성: ${rotationStats.star4}`;
-        rotationPanel.children[5].textContent = `3성: ${rotationStats.star3}`;
+        rotationPanel.children[1].innerHTML = `<span class="text-rarity-star6">6★</span>: ${rotationStats.star6}`;
+        rotationPanel.children[2].innerHTML = `<span class="text-rarity-star5">5★</span>: ${rotationStats.star5}`;
+        rotationPanel.children[3].innerHTML = `<span class="text-rarity-star4">4★</span>: ${rotationStats.star4}`;
+        rotationPanel.children[4].innerHTML = `<span class="text-rarity-star3">3★</span>: ${rotationStats.star3}`;
 
         const permanentStats = gachaState.stats["영구 핫라인"];
         const permanentPanel = document.querySelector('.js-stats-permanent');
-        permanentPanel.children[1].textContent = `총 영입 횟수: ${permanentStats.total}`;
-        permanentPanel.children[2].textContent = `6성: ${permanentStats.star6}`;
-        permanentPanel.children[3].textContent = `5성: ${permanentStats.star5}`;
-        permanentPanel.children[4].textContent = `4성: ${permanentStats.star4}`;
-        permanentPanel.children[5].textContent = `3성: ${permanentStats.star3}`;
+        permanentPanel.children[1].innerHTML = `<span class="text-rarity-star6">6★</span>: ${permanentStats.star6}`;
+        permanentPanel.children[2].innerHTML = `<span class="text-rarity-star5">5★</span>: ${permanentStats.star5}`;
+        permanentPanel.children[3].innerHTML = `<span class="text-rarity-star4">4★</span>: ${permanentStats.star4}`;
+        permanentPanel.children[4].innerHTML = `<span class="text-rarity-star3">3★</span>: ${permanentStats.star3}`;
       };
 
       const updatePityUI = (banner) => {
@@ -163,7 +156,7 @@
         
         results.forEach(char => {
           const charDiv = document.createElement('div');
-          charDiv.className = `result-card rarity-${char.rare}`;
+          charDiv.className = `result-card rarity-star${char.rare.slice(-1)}`;
           
           const img = document.createElement('img');
           img.className = 'result-card__image';
@@ -190,47 +183,56 @@
         });
 
         let rarity;
-        const pity5Threshold = (Math.random() < 0.02) ? 'star6' : 'star5'; 
+        const pity5Threshold = (Math.random() < banner.rates.star6 / (banner.rates.star6 + banner.rates.star5)) ? 'star6' : 'star5'; 
         if (currentPity.pity6Star >= 69) {
           rarity = 'star6';
         } else if (currentPity.pity5Star >= 9) {
           rarity = pity5Threshold;
         } else {
-          const base6Rate = 0.02;
-          const increasedRate = base6Rate + Math.max(0, currentPity.pity6Star - 50) * 0.02;
+          const base6Rate = banner.rates.star6 / 100;
+          const increasedRate = base6Rate + Math.max(0, currentPity.pity6Star - 50) * base6Rate * 2;
           const rand = Math.random();
 
           if (rand < increasedRate) rarity = 'star6';
-          else if (rand < increasedRate + 0.08) rarity = 'star5';
-          else if (rand < increasedRate + 0.08 + 0.5) rarity = 'star4';
+          else if (rand < increasedRate + banner.rates.star5 / 100) rarity = 'star5';
+          else if (rand < increasedRate + banner.rates.star5 / 100 + banner.rates.star4 / 100) rarity = 'star4';
           else rarity = 'star3';
         }
         
         let finalCharId;
         const pickup = banner.pickup;
         const hasPickup = pickup && typeof pickup === 'object';
-
+        
         if (rarity === 'star6' && hasPickup && pickup.star6) {
+            const pickupId = pickup.star6;
           if (currentPity.guaranteedPickup) {
-            finalCharId = pickup.star6;
+            finalCharId = pickupId;
           } else {
             if (Math.random() < 0.5) {
-              finalCharId = pickup.star6;
+              finalCharId = pickupId;
             } else {
-              const nonPickupPool = poolsByRarity.star6.filter(id => id !== pickup.star6);
-              finalCharId = nonPickupPool.length > 0 ? nonPickupPool[Math.floor(Math.random() * nonPickupPool.length)] : pickup.star6;
+              const nonPickupPool = poolsByRarity.star6.filter(id => id !== pickupId);
+              finalCharId = nonPickupPool.length > 0 ? nonPickupPool[Math.floor(Math.random() * nonPickupPool.length)] : pickupId;
             }
           }
         } else if (rarity === 'star5' && hasPickup && pickup.star5 && pickup.star5.length > 0) {
+            const pickupIds = pickup.star5;
           if (Math.random() < 0.5) {
-            finalCharId = pickup.star5[Math.floor(Math.random() * pickup.star5.length)];
+            finalCharId = pickupIds[Math.floor(Math.random() * pickupIds.length)];
           } else {
-            const nonPickupPool = poolsByRarity.star5.filter(id => !pickup.star5.includes(id));
-            finalCharId = nonPickupPool.length > 0 ? nonPickupPool[Math.floor(Math.random() * nonPickupPool.length)] : pickup.star5[0];
+            const nonPickupPool = poolsByRarity.star5.filter(id => !pickupIds.includes(id));
+            finalCharId = nonPickupPool.length > 0 ? nonPickupPool[Math.floor(Math.random() * nonPickupPool.length)] : (pickupIds[0] || poolsByRarity.star5[0]);
           }
-        } else {
+        } 
+        
+        if (!finalCharId) {
           const targetPool = poolsByRarity[rarity];
-          finalCharId = targetPool[Math.floor(Math.random() * targetPool.length)];
+          if(targetPool && targetPool.length > 0) {
+            finalCharId = targetPool[Math.floor(Math.random() * targetPool.length)];
+          } else {
+            const anyPool = banner.pool;
+            finalCharId = anyPool[Math.floor(Math.random() * anyPool.length)];
+          }
         }
         
         return characterMap.get(finalCharId) || { id: 0, name: '데이터 없음', rare: 'star3' };
@@ -262,20 +264,19 @@
           if (character.rare === 'star6') {
             pityCounters.pity5Star = 0;
             pityCounters.pity6Star = 0;
-            const bannerPickupId = banner.pickup?.star6;
-            if (bannerPickupId) {
-              pityCounters.guaranteedPickup = character.id !== bannerPickupId;
+            if (banner.pickup?.star6) {
+              pityCounters.guaranteedPickup = character.id !== banner.pickup.star6;
             }
           } else if (character.rare === 'star5') {
             pityCounters.pity5Star = 0;
           }
         }
         
-        // **MODIFIED: Save pulls as a group**
         const newHistoryGroup = {
-            pulls: results,
-            date: new Date().toLocaleString(),
-            bannerName: banner.name
+          pulls: results,
+          date: new Date().toLocaleString(),
+          bannerName: banner.name,
+          bannerType: banner.type
         };
         gachaState.history.unshift(newHistoryGroup);
 
@@ -286,94 +287,211 @@
       };
       
       const handleReset = () => {
-        // if (!confirm('정말로 모든 기록을 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
         gachaState = {
-            totalSpent: 0,
-            history: [],
-            stats: {
-                "교대 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
-                "영구 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
-            },
-            pity: {
-              "교대 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
-              "영구 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
-            }
+          totalSpent: 0,
+          history: [],
+          stats: {
+            "교대 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
+            "영구 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
+          },
+          pity: {
+            "교대 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
+            "영구 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
+          }
         };
         saveState();
         updateStatsUI();
         const selectedBannerKey = localStorage.getItem('selectedBannerKey');
         if (selectedBannerKey && bannerData) {
-            updatePityUI(bannerData[selectedBannerKey]);
+          updatePityUI(bannerData[selectedBannerKey]);
         }
         document.querySelector('.gacha-results__grid').innerHTML = '';
         renderHistory();
       };
       
-      // **MODIFIED: Renders grouped history**
       const renderHistory = () => {
         const historyContainer = document.querySelector('.history-area__container');
         historyContainer.innerHTML = '';
 
         if (!gachaState.history || gachaState.history.length === 0) {
-            const noHistoryMsg = document.createElement('p');
-            noHistoryMsg.textContent = '통신 기록이 없습니다.';
-            historyContainer.appendChild(noHistoryMsg);
-            return;
+          const noHistoryMsg = document.createElement('p');
+          noHistoryMsg.textContent = '통신 기록이 없습니다.';
+          historyContainer.appendChild(noHistoryMsg);
+          return;
         }
         
         const fragment = document.createDocumentFragment();
         gachaState.history.forEach(group => {
-            if (!group.pulls) return; // Skip old format entries if any exist
+          if (!group.pulls) return; 
 
-            const groupDiv = document.createElement('div');
-            groupDiv.className = 'history-group';
-            
-            const infoDiv = document.createElement('div');
-            infoDiv.className = 'history-group__info';
-            infoDiv.innerHTML = `
-              <span>${group.date}</span>
-              <span>[${group.bannerName}]</span>
-              <span>${group.pulls.length}회 영입</span>
-            `;
+          const groupDiv = document.createElement('div');
+          groupDiv.className = 'history-group';
+          
+          const infoDiv = document.createElement('div');
+          infoDiv.className = 'history-group__info';
+          
+          infoDiv.innerHTML = `
+            <span>${group.date}</span>
+            <span>[${group.bannerType}]</span>
+            <span>${group.bannerName}</span>
+          `;
 
-            const mainDiv = document.createElement('div');
-            mainDiv.className = 'history-group__main';
-            
-            group.pulls.forEach(char => {
-                const icon = document.createElement('img');
-                icon.className = `history-group__icon rarity-${char.rare}`;
-                icon.src = `./img/character/${char.id}/icon.png`;
-                icon.alt = char.name;
-                icon.title = `${char.name} (${char.rare.replace('star', '')}★)`;
-                mainDiv.appendChild(icon);
-            });
-            
-            groupDiv.appendChild(infoDiv);
-            groupDiv.appendChild(mainDiv);
-            fragment.appendChild(groupDiv);
+          const mainDiv = document.createElement('div');
+          mainDiv.className = 'history-group__main';
+          
+          group.pulls.forEach(char => {
+            const icon = document.createElement('img');
+            icon.className = `history-group__icon rarity-star${char.rare.slice(-1)}`;
+            icon.src = `./img/character/${char.id}/icon.png`;
+            icon.alt = char.name;
+            icon.title = `${char.name} (${char.rare.replace('star', '')}★)`;
+            mainDiv.appendChild(icon);
+          });
+          
+          groupDiv.appendChild(infoDiv);
+          groupDiv.appendChild(mainDiv);
+          fragment.appendChild(groupDiv);
         });
         historyContainer.appendChild(fragment);
       };
+
+      const renderDetails = () => {
+        const detailContainer = document.querySelector('.detail-area__container');
+        const selectedBannerKey = localStorage.getItem('selectedBannerKey');
+        const banner = bannerData[selectedBannerKey];
+
+        if (!banner) {
+          detailContainer.innerHTML = '<p>표시할 배너 정보를 선택해주세요.</p>';
+          return;
+        }
+
+        const pool = { star6: [], star5: [], star4: [], star3: [] };
+        banner.pool.forEach(id => {
+          const char = characterMap.get(id);
+          if (char && pool[char.rare]) {
+            pool[char.rare].push(char.name);
+          }
+        });
+        
+        const createCharListHTML = (arr) => arr.map(name => `<span>${name}</span>`).join('');
+        
+        if (banner.type === '교대 핫라인') {
+          const star6PickupId = banner.pickup?.star6;
+          const star6PickupChar = characterMap.get(star6PickupId) || { id: 0, name: '없음' };
+          const star5PickupIds = banner.pickup?.star5 || [];
+          const star5PickupChars = star5PickupIds.map(id => characterMap.get(id)).filter(Boolean);
+          while (star5PickupChars.length < 2) {
+            star5PickupChars.push({ id: 0, name: '' });
+          }
+          const star5PickupNames = star5PickupChars.map(p => p.name).filter(Boolean);
+
+          // 교대 핫라인 설명
+          detailContainer.innerHTML = `
+            <div class="detail-section">
+              <div class="detail-rateup-list">
+                <div class="detail-rateup-list__item">
+                  <img src="./img/character/${star6PickupChar.id}/icon.png" alt="${star6PickupChar.name}">
+                  <span class="text-rarity-star6">${star6PickupChar.name}</span>
+                </div>
+                <div class="detail-rateup-list__item">
+                  <img src="./img/character/${star5PickupChars[0].id}/icon.png" alt="${star5PickupChars[0].name}">
+                  <span class="text-rarity-star5">${star5PickupChars[0].name}</span>
+                </div>
+                <div class="detail-rateup-list__item">
+                  <img src="./img/character/${star5PickupChars[1].id}/icon.png" alt="${star5PickupChars[1].name || ''}">
+                  <span class="text-rarity-star5">${star5PickupChars[1].name || ''}</span>
+                </div>
+              </div>
+            </div>
+            <div class="detail-section">
+              <h3 class="detail-section__title">▸ 영입 확률 설명</h3>
+              <p>이번 시즌 영입 <span style="color: orange;">${banner.name}</span>에서 각 희귀 특수 요원의 영입 확률은 다음과 같습니다.</p>
+              <ul>
+                <li>「<span class="text-rarity-star6">6★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star6}%</span>로, 천장 메커니즘을 포함한 종합 확률은 <span style="color: orange;">2.39%</span>입니다. 이 중 ${star6PickupChar.name}의 영입 확률이 증가하며 6성 특수 요원 영입 확률의 50%를 차지합니다.</li>
+                <li>「<span class="text-rarity-star5">5★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star5}%</span>입니다. 이 중 ${star5PickupNames.join(', ')}의 영입 확률이 증가하며 5성 특수 요원 영입 확률의 <span style="color: orange;">50%</span>를 차지합니다.</li>
+                <li>「<span class="text-rarity-star4">4★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star4}%</span>입니다.</li>
+                <li>「<span class="text-rarity-star3">3★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star3}%</span>입니다.</li>
+              </ul>
+              <hr class="stats-panel__divider">
+              <p><span class="text-rarity-star6">6★ 특수 요원</span></p>
+              <div class="detail-char-list">${createCharListHTML(pool.star6)}</div>
+              <p><span class="text-rarity-star5">5★ 특수 요원</span></p>
+              <div class="detail-char-list">${createCharListHTML(pool.star5)}</div>
+              <p><span class="text-rarity-star4">4★ 특수 요원</span></p>
+              <div class="detail-char-list">${createCharListHTML(pool.star4)}</div>
+              <p><span class="text-rarity-star3">3★ 특수 요원</span></p>
+              <div class="detail-char-list">${createCharListHTML(pool.star3)}</div>
+            </div>
+            <div class="detail-section">
+              <h3 class="detail-section__title">▸ <span style="color: orange;">「${banner.type}」</span> 설명</h3>
+              <ul>
+                <li>이번 시즌 영입 유형은 <span style="color: orange;">${banner.type}</span>입니다.</li>
+                <li>이번 시즌 영입에서 10번마다 <span style="color: orange;">반드시</span> 1명의 5성 혹은 그를 초과하는 특수 요원을 획득합니다.</li>
+                <li>6성 특수 요원을 연속된 여러 차례의 영입에서 획득하지 못하면 6성 특수 요원의 획득 확률이 점진적으로 증가하며 최대 <span style="color: orange;">70</span>회 영입에서 천장 메커니즘으로 6성 특수 요원을 반드시 획득할 수 있습니다.</li>
+                <li>이번 영입에서 획득한 6성 특수 요원이 영입 확률 증가 특수 요원이 아니라면 다음 영입으로 획득하는 6성 특수 요원은 <span style="color: orange;">반드시</span> 영입 확률 증가 특수 요원이 됩니다.</li>
+                <li>임의의 <span style="color: orange;">「${banner.type}」</span>에서 6성 특수 요원을 획득하지 못하면 천장 횟수가 누적되며 6성 특수 요원을 획득한 후 초기화됩니다. 해당 횟수는 모든 <span style="color: orange;">「${banner.type}」</span>에서 공유됩니다.</li>
+              </ul>
+            </div>
+          `;
+        } else {
+          // 영구 핫라인 설명
+          detailContainer.innerHTML = `
+            <div class="detail-section">
+              <h3 class="detail-section__title">▸ 영입 확률 설명</h3>
+              <p>이번 시즌 <span style="color: orange;">${banner.name}</span>에서 각 희귀 특수 요원의 영입 확률은 다음과 같습니다.</p>
+              <ul>
+                <li>「<span class="text-rarity-star6">6★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star6}%</span>로, 천장 메커니즘을 포함한 종합 확률은 <span style="color: orange;">2.39%</span>입니다.</li>
+                <li>「<span class="text-rarity-star5">5★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star5}%</span>입니다.</li>
+                <li>「<span class="text-rarity-star4">4★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star4}%</span>입니다.</li>
+                <li>「<span class="text-rarity-star3">3★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star3}%</span>입니다.</li>
+              </ul>
+              <hr class="stats-panel__divider">
+              <p><span class="text-rarity-star6">6★ 특수 요원</span></p>
+              <div class="detail-char-list">${createCharListHTML(pool.star6)}</div>
+              <p><span class="text-rarity-star5">5★ 특수 요원</span></p>
+              <div class="detail-char-list">${createCharListHTML(pool.star5)}</div>
+              <p><span class="text-rarity-star4">4★ 특수 요원</span></p>
+              <div class="detail-char-list">${createCharListHTML(pool.star4)}</div>
+              <p><span class="text-rarity-star3">3★ 특수 요원</span></p>
+              <div class="detail-char-list">${createCharListHTML(pool.star3)}</div>
+            </div>
+            <div class="detail-section">
+              <h3 class="detail-section__title">▸ <span style="color: orange;">「${banner.type}」</span> 설명</h3>
+              <ul>
+                <li>이번 시즌 영입 유형은 <span style="color: orange;">${banner.type}</span>입니다.</li>
+                <li>6성 특수 요원을 연속된 여러 차례의 통신에서 획득하지 못하면 6성 특수 요원의 획득 확률이 점진적으로 증가하며 최대 <span style="color: orange;">70</span>회 통신에서 천장 메커니즘으로 6성 특수 요원을 반드시 획득할 수 있습니다.</li>
+                <li>임의의 <span style="color: orange;">「${banner.type}」</span>에서 6성 특수 요원을 획득하지 못하면 천장 횟수가 누적되며 6성 특수 요원을 획득한 후 초기화됩니다</li>
+              </ul>
+            </div>
+          `;
+        }
+      };
+
 
       (async () => {
         try {
           const gachaContainer = document.querySelector('.gacha-area__container');
           const historyContainer = document.querySelector('.history-area__container');
+          const detailContainer = document.querySelector('.detail-area__container');
+          
           const toggleHistoryButton = document.querySelector('.js-toggle-history');
+          const toggleDetailsButton = document.querySelector('.js-toggle-details');
+          
           const bannerContainer = document.querySelector('.banner-selector');
 
           const [bannerResponse, characterResponse] = await Promise.all([
             fetch('banner.json'),
             fetch('character.json')
           ]);
-          const banners = await bannerResponse.json();
+          
           const characters = await characterResponse.json();
-
-          bannerData = banners;
+          bannerData = await bannerResponse.json();
           characterMap = new Map(characters.map(char => [char.id, char]));
 
           loadState(); 
           updateStatsUI();
+          
+          let currentView = 'gacha';
 
           const showBanner = (bannerKey) => {
             const banner = bannerData[bannerKey];
@@ -389,6 +507,10 @@
             localStorage.setItem('selectedBannerKey', bannerKey);
             
             updatePityUI(banner);
+
+            if (currentView === 'details') {
+              renderDetails();
+            }
           };
 
           for (const bannerKey in bannerData) {
@@ -417,24 +539,42 @@
             showBanner(initialBannerKey);
           }
 
-          const handleHistoryToggle = () => {
-            const isGachaView = !gachaContainer.classList.contains('hidden');
-            if (isGachaView) {
-                gachaContainer.classList.add('hidden');
-                historyContainer.classList.remove('hidden');
-                toggleHistoryButton.textContent = '기록 닫기';
-                renderHistory();
-            } else {
-                gachaContainer.classList.remove('hidden');
-                historyContainer.classList.add('hidden');
-                toggleHistoryButton.textContent = '통신 기록';
+          const setView = (viewName) => {
+            currentView = viewName;
+            
+            gachaContainer.classList.add('hidden');
+            historyContainer.classList.add('hidden');
+            detailContainer.classList.add('hidden');
+
+            toggleHistoryButton.textContent = '통신 기록';
+            toggleDetailsButton.textContent = '상세정보';
+
+            if (viewName === 'gacha') {
+              gachaContainer.classList.remove('hidden');
+            } else if (viewName === 'history') {
+              historyContainer.classList.remove('hidden');
+              toggleHistoryButton.textContent = '영입하기';
+              renderHistory();
+            } else if (viewName === 'details') {
+              detailContainer.classList.remove('hidden');
+              toggleDetailsButton.textContent = '영입하기';
+              renderDetails();
             }
+          }
+
+          const handleHistoryToggle = () => {
+            setView(currentView === 'history' ? 'gacha' : 'history');
+          };
+          
+          const handleDetailsToggle = () => {
+            setView(currentView === 'details' ? 'gacha' : 'details');
           };
           
           document.querySelector('.js-draw-1').addEventListener('click', () => handleDraw(1));
           document.querySelector('.js-draw-10').addEventListener('click', () => handleDraw(10));
           document.querySelector('.js-reset').addEventListener('click', handleReset);
           toggleHistoryButton.addEventListener('click', handleHistoryToggle);
+          toggleDetailsButton.addEventListener('click', handleDetailsToggle);
 
         } catch (error) {
           console.error("오류가 발생했습니다:", error);
