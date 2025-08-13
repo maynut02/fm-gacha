@@ -1,6 +1,6 @@
 :root {
-  --bg1: #111;
-  --bg2: #1b1b1b;
+  --bg1: #121212;
+  --bg2: #191919;
   --panel: #222;
   --line1: #333;
   --line2: #444;
@@ -32,7 +32,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   max-width: 1500px;
   margin: 0 auto;
 }
@@ -40,6 +40,11 @@ body {
 main {
   flex: 1;
   display: flex;
+  overflow: hidden; /* Prevent main from causing scrollbars */
+}
+
+.hidden {
+  display: none !important;
 }
 
 /* --- Banner Selector --- */
@@ -99,6 +104,21 @@ main {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  overflow-y: auto;
+}
+
+.banner-info::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.banner-info::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px;
+}
+
+.banner-info::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, .0);
 }
 
 .banner-info__type {
@@ -164,16 +184,18 @@ main {
   display: flex;
   padding: 15px;
   padding-left: 0;
-  max-height: 700px;
+  /* max-height has been removed */
 }
 
 .gacha-area__container {
   width: 100%;
+  height: 100%; /* Fill parent height */
   background: var(--bg1);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  max-height: 750px;
 }
 
 /* --- Pity Tracker --- */
@@ -190,6 +212,7 @@ main {
   align-items: center;
   justify-content: center;
   padding: 0 20px;
+  overflow: hidden;
 }
 
 .gacha-results__grid {
@@ -227,25 +250,27 @@ main {
   color: var(--text);
 }
 
-.result-card--star-6 {
+/* Rarity border/shadow colors */
+.rarity-star6 {
   background: rgb(255, 112, 45);
   box-shadow: 0 0 14px rgba(255, 112, 45, 0.6), 0 0 28px rgba(255, 112, 45, 0.4);
 }
 
-.result-card--star-5 {
+.rarity-star5 {
   background: rgb(219, 199, 108);
   box-shadow: 0 0 14px rgba(219, 199, 108, 0.6), 0 0 28px rgba(219, 199, 108, 0.4);
 }
 
-.result-card--star-4 {
+.rarity-star4 {
   background: rgb(189, 127, 255);
   box-shadow: 0 0 14px rgba(189, 127, 255, 0.6), 0 0 28px rgba(189, 127, 255, 0.4);
 }
 
-.result-card--star-3 {
+.rarity-star3 {
   background: rgb(103, 201, 251);
   box-shadow: 0 0 14px rgba(103, 201, 251, 0.6), 0 0 28px rgba(103, 201, 251, 0.4);
 }
+
 
 /* --- Draw Controls --- */
 .draw-controls {
@@ -291,88 +316,73 @@ main {
   font-size: 14px;
 }
 
-/* --- History Popup --- */
-.history-popup {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  padding: 20px;
-  background: rgba(10, 10, 10, 0.7);
+/* --- History Area (Replaces Popup) --- */
+.history-area__container {
+    width: 100%;
+    height: 100%; /* Fill parent height */
+    background: var(--bg1);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
 }
 
-.history-popup--closed {
-  display: none;
+.history-area__container::-webkit-scrollbar {
+  width: 6px;  
 }
 
-.history-popup__content {
-  width: 100%;
-  max-width: 1400px;
-  height: 100%;
-  margin: 0 auto;
-  background: var(--bg2);
-  border-radius: 15px;
-  border: 1px solid var(--line1);
-  padding: 20px;
-  padding-right: 4px;
-  position: relative;
-}
-
-.history-popup__list {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-  padding-right: 16px;
-}
-
-.history-popup__list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.history-popup__list::-webkit-scrollbar-thumb {
+.history-area__container::-webkit-scrollbar-thumb {
   background: #aaa;
   border-radius: 10px;
 }
 
-.history-popup__list::-webkit-scrollbar-track {
+.history-area__container::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, .0);
 }
 
-.history-popup__close-button {
-  position: absolute;
-  z-index: 100;
-  top: 16px;
-  right: 16px;
-  width: 36px;
-  height: 36px;
-  border: none;
+.history-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-bottom: 1px solid var(--line2);
+  background: var(--bg2);
   border-radius: 8px;
-  background: rgba(255, 255, 255, .08);
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
 }
 
-.history-popup__item {
+.history-group__main {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-bottom: 9px;
-  border-bottom: 1px solid var(--line2);
+  flex-wrap: wrap;
 }
 
-.history-popup__item img {
-  width: 30px;
+.history-group__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
 }
+
+.history-group__info {
+  min-width: 180px;
+  font-size: 13px;
+  color: #bbb;
+  align-self: flex-start;
+}
+
+.history-group__info span {
+  display: block;
+}
+
 
 /* --- Mobile / Responsive Styles --- */
 @media (max-width: 768px) {
   main {
     flex-direction: column;
+    overflow: auto; /* Allow scrolling on mobile */
   }
 
   .sidebar {
@@ -403,7 +413,6 @@ main {
 
   .gacha-area {
     padding: 10px;
-    padding-bottom: 30px;
   }
 
   .pity-tracker {
@@ -441,5 +450,35 @@ main {
 
   .draw-controls__cost {
     font-size: 12px;
+  }
+
+  .history-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .history-group__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rarity-star6 {
+    background: rgb(255, 112, 45);
+    box-shadow: 0 0 7px rgba(255, 112, 45, 0.6), 0 0 14px rgba(255, 112, 45, 0.4);
+  }
+
+  .rarity-star5 {
+    background: rgb(219, 199, 108);
+    box-shadow: 0 0 7px rgba(219, 199, 108, 0.6), 0 0 14px rgba(219, 199, 108, 0.4);
+  }
+
+  .rarity-star4 {
+    background: rgb(189, 127, 255);
+    box-shadow: 0 0 7px rgba(189, 127, 255, 0.6), 0 0 14px rgba(189, 127, 255, 0.4);
+  }
+
+  .rarity-star3 {
+    background: rgb(103, 201, 251);
+    box-shadow: 0 0 7px rgba(103, 201, 251, 0.6), 0 0 14px rgba(103, 201, 251, 0.4);
   }
 }
