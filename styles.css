@@ -313,6 +313,10 @@ main {
   position: relative;
 }
 
+.mobile .gacha-images .result-char {
+  border-radius: 6px;
+}
+
 .gacha-images .result-char:hover {
   transform: scale(1.05);
 }
@@ -351,8 +355,8 @@ main {
 
 .mobile .result-char span {
   font-size: 10px;
-  top: 3px;
-  left: 6px;
+  top: 2px;
+  left: 5px;
 }
 
 .history-popup {
