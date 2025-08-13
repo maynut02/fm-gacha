@@ -1,6 +1,6 @@
-:root{
-  --bg1: #121212;
-  --bg2: #191919;
+:root {
+  --bg1: #111;
+  --bg2: #1b1b1b;
   --panel: #222;
   --line1: #333;
   --line2: #444;
@@ -8,11 +8,12 @@
 
   --banner-h: 80px;
 }
-*{ box-sizing: border-box; }
+
+* { box-sizing: border-box; }
 
 body::-webkit-scrollbar {
-  width: 6px; 
-  height: 6px; 
+  width: 6px;
+  height: 6px;
 }
 
 body::-webkit-scrollbar-thumb {
@@ -32,22 +33,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
   max-width: 1500px;
   margin: 0 auto;
-}
-
-.sidebar {
-  width: 300px; 
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  min-width: 210px;
-}
-
-.mobile .sidebar {
-  padding: 0;
 }
 
 main {
@@ -55,32 +42,8 @@ main {
   display: flex;
 }
 
-.mobile main {
-  flex-direction: column;
-}
-
-.main {
-  flex: 1;
-  display: flex;
-  padding: 15px;
-  padding-left: 0;
-  max-height: 700px;
-}
-
-.mobile .main {
-  padding: 10px;
-}
-
-.main .container {
-  width: 100%;
-  background: var(--bg1);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.banner-buttons {
+/* --- Banner Selector --- */
+.banner-selector {
   display: flex;
   gap: 15px;
   padding: 15px;
@@ -88,47 +51,47 @@ main {
   overflow-x: auto;
 }
 
-.mobile .banner-buttons {
-  padding: 10px;
-  gap: 10px;
+.banner-selector::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-.banner-buttons::-webkit-scrollbar {
-  width: 6px; 
-  height: 6px; 
-}
-
-.banner-buttons::-webkit-scrollbar-thumb {
+.banner-selector::-webkit-scrollbar-thumb {
   background: #aaa;
   border-radius: 10px;
 }
 
-.banner-buttons::-webkit-scrollbar-track {
+.banner-selector::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, .0);
 }
 
-.banner-btn {
-  border: none;
+.banner-selector__button {
+  border: 2px solid var(--bg2);
   background: none;
   cursor: pointer;
   padding: 0;
   display: flex;
-  border: 2px solid var(--bg2);
 }
 
-.banner-btn.active {
+.banner-selector__button--active {
   border: 2px solid var(--text);
 }
 
-.banner-btn img {
+.banner-selector__image {
   height: 80px;
 }
 
-.mobile .banner-btn img {
-  height: 65px;
+/* --- Sidebar & Info --- */
+.sidebar {
+  width: 300px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 210px;
 }
 
-.info-box {
+.banner-info {
   width: 100%;
   height: 100%;
   border-radius: 15px;
@@ -138,40 +101,25 @@ main {
   gap: 15px;
 }
 
-.mobile .sidebar {
-  width: 100%;
-}
-
-.banner-type {
+.banner-info__type {
   width: 100%;
   font-size: 14px;
   text-align: center;
 }
 
-.mobile .banner-type {
-  font-size: 12px;
-}
-
-.banner-name {
+.banner-info__name {
   width: 100%;
   margin: 0;
   text-align: center;
 }
 
-.mobile .banner-name {
-  font-size: 22px;
-}
-
+/* --- Stats Panel --- */
 .stats-panel {
   display: flex;
   flex-direction: column;
 }
 
-.mobile .stats-panel {
-  padding: 0 10px;
-}
-
-.stats-panel hr {
+.stats-panel__divider {
   width: 100%;
   height: 1px;
   background: var(--line2);
@@ -179,23 +127,23 @@ main {
   margin: 10px 0;
 }
 
-.stats-panel .card {
+.stats-panel__card {
   display: flex;
   flex-direction: column;
   font-size: 14px;
 }
 
-.stats-panel .card img {
+.stats-panel__card img {
   vertical-align: middle;
 }
 
-.info-box .stats-buttons {
+.stats-panel__actions {
   padding-top: 10px;
   display: flex;
   gap: 10px;
 }
 
-.stats-buttons button {
+.stats-panel__button {
   flex: 1;
   padding: 10px;
   border: none;
@@ -206,34 +154,108 @@ main {
   cursor: pointer;
 }
 
-.stats-buttons button:hover {
+.stats-panel__button:hover {
   background: #292929;
 }
 
-.container .count {
+/* --- Main Gacha Area --- */
+.gacha-area {
+  flex: 1;
+  display: flex;
+  padding: 15px;
+  padding-left: 0;
+  max-height: 700px;
+}
+
+.gacha-area__container {
+  width: 100%;
+  background: var(--bg1);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* --- Pity Tracker --- */
+.pity-tracker {
   display: flex;
   flex-direction: column;
   padding: 20px;
 }
 
-.mobile .container .count {
-  padding: 10px;
-  font-size: 12px;
+/* --- Gacha Results --- */
+.gacha-results {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
 }
 
-.container .draw-buttons {
+.gacha-results__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(auto, 130px));
+  gap: 20px;
+  align-items: end;
+}
+
+.result-card {
+  height: 100%;
+  display: flex;
+  align-items: end;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  cursor: pointer;
+  aspect-ratio: 5/7;
+  position: relative;
+}
+
+.result-card:hover {
+  transform: scale(1.05);
+}
+
+.result-card__image {
+  width: 100%;
+}
+
+.result-card__name {
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.result-card--star-6 {
+  background: rgb(255, 112, 45);
+  box-shadow: 0 0 14px rgba(255, 112, 45, 0.6), 0 0 28px rgba(255, 112, 45, 0.4);
+}
+
+.result-card--star-5 {
+  background: rgb(219, 199, 108);
+  box-shadow: 0 0 14px rgba(219, 199, 108, 0.6), 0 0 28px rgba(219, 199, 108, 0.4);
+}
+
+.result-card--star-4 {
+  background: rgb(189, 127, 255);
+  box-shadow: 0 0 14px rgba(189, 127, 255, 0.6), 0 0 28px rgba(189, 127, 255, 0.4);
+}
+
+.result-card--star-3 {
+  background: rgb(103, 201, 251);
+  box-shadow: 0 0 14px rgba(103, 201, 251, 0.6), 0 0 28px rgba(103, 201, 251, 0.4);
+}
+
+/* --- Draw Controls --- */
+.draw-controls {
   padding: 20px;
   display: flex;
   gap: 20px;
   justify-content: end;
 }
 
-.mobile .container .draw-buttons {
-  padding: 10px;
-  gap: 10px;
-}
-
-.draw-buttons button {
+.draw-controls__button {
   width: 230px;
   height: 50px;
   border: none;
@@ -250,24 +272,15 @@ main {
   gap: 10px;
 }
 
-.mobile .draw-buttons button {
-  font-size: 14px;
-  height: 44px;
-}
-
-.mobile .draw-buttons button div {
-  font-size: 12px;
-}
-
-.draw-buttons button:hover {
+.draw-controls__button:hover {
   background: #1c1c1c;
 }
 
-.draw-buttons button:hover div {
+.draw-controls__button:hover .draw-controls__cost {
   background: #292929;
 }
 
-.draw-buttons button div {
+.draw-controls__cost {
   background: #383838;
   display: flex;
   align-items: center;
@@ -278,87 +291,7 @@ main {
   font-size: 14px;
 }
 
-.container .gacha {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 20px;
-}
-
-.mobile .container .gacha {
-  padding: 10px;
-}
-
-.container .gacha-images {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(auto, 130px));
-  gap: 20px;
-  align-items: end;
-}
-
-.mobile .container .gacha-images {
-  gap: 8px;
-}
-
-.gacha-images .result-char {
-  height: 100%;
-  display: flex;
-  align-items: end;
-  border-radius: 10px;
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-  cursor: pointer;
-  aspect-ratio: 5/7;
-  position: relative;
-}
-
-.mobile .gacha-images .result-char {
-  border-radius: 6px;
-}
-
-.gacha-images .result-char:hover {
-  transform: scale(1.05);
-}
-
-.container .gacha-images .star6 {
-  background: rgb(255, 112, 45);
-  box-shadow: 0 0 14px rgba(255, 112, 45, 0.6), 0 0 28px rgba(255, 112, 45, 0.4);
-}
-
-.container .gacha-images .star5 {
-  background: rgb(219, 199, 108);
-  box-shadow: 0 0 14px rgba(219, 199, 108, 0.6), 0 0 28px rgba(219, 199, 108, 0.4);
-}
-
-.container .gacha-images .star4 {
-  background: rgb(189, 127, 255);
-  box-shadow: 0 0 14px rgba(189, 127, 255, 0.6), 0 0 28px rgba(189, 127, 255, 0.4);
-}
-
-.container .gacha-images .star3 {
-  background: rgb(103, 201, 251);
-  box-shadow: 0 0 14px rgba(103, 201, 251, 0.6), 0 0 28px rgba(103, 201, 251, 0.4);
-}
-
-.container .gacha img {
-  width: 100%;
-}
-
-.result-char span {
-  position: absolute;
-  top: 6px;
-  left: 12px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.mobile .result-char span {
-  font-size: 10px;
-  top: 2px;
-  left: 5px;
-}
-
+/* --- History Popup --- */
 .history-popup {
   position: fixed;
   width: 100vw;
@@ -369,7 +302,11 @@ main {
   background: rgba(10, 10, 10, 0.7);
 }
 
-.popup-scroll {
+.history-popup--closed {
+  display: none;
+}
+
+.history-popup__content {
   width: 100%;
   max-width: 1400px;
   height: 100%;
@@ -382,24 +319,7 @@ main {
   position: relative;
 }
 
-.history-list::-webkit-scrollbar {
-  width: 6px;  
-}
-
-.history-list::-webkit-scrollbar-thumb {
-  background: #aaa;
-  border-radius: 10px;
-}
-
-.history-list::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, .0);
-}
-
-.history-popup.closed {
-  display: none;
-}
-
-.history-list {
+.history-popup__list {
   width: 100%;
   height: 100%;
   display: flex;
@@ -409,7 +329,20 @@ main {
   padding-right: 16px;
 }
 
-.history-close-btn {
+.history-popup__list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-popup__list::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px;
+}
+
+.history-popup__list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, .0);
+}
+
+.history-popup__close-button {
   position: absolute;
   z-index: 100;
   top: 16px;
@@ -424,7 +357,7 @@ main {
   cursor: pointer;
 }
 
-.history-item {
+.history-popup__item {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -432,6 +365,81 @@ main {
   border-bottom: 1px solid var(--line2);
 }
 
-.history-item img {
+.history-popup__item img {
   width: 30px;
+}
+
+/* --- Mobile / Responsive Styles --- */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 0;
+  }
+  
+  .banner-selector {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .banner-selector__image {
+    height: 65px;
+  }
+
+  .banner-info__type {
+    font-size: 12px;
+  }
+
+  .banner-info__name {
+    font-size: 22px;
+  }
+
+  .stats-panel {
+    padding: 0 10px;
+  }
+
+  .gacha-area {
+    padding: 10px;
+    padding-bottom: 30px;
+  }
+
+  .pity-tracker {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .gacha-results {
+    padding: 10px;
+  }
+
+  .gacha-results__grid {
+    gap: 8px;
+  }
+
+  .result-card {
+    border-radius: 6px;
+  }
+
+  .result-card__name {
+    font-size: 10px;
+    top: 2px;
+    left: 5px;
+  }
+
+  .draw-controls {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .draw-controls__button {
+    font-size: 14px;
+    height: 44px;
+  }
+
+  .draw-controls__cost {
+    font-size: 12px;
+  }
 }

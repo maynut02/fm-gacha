@@ -8,91 +8,78 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="banner-buttons"></div>
+    <div class="banner-selector"></div>
     <main>
       <div class="sidebar">
-        <div class="info-box">
+        <div class="banner-info">
           <div>
-            <div class="banner-type"></div>
-            <h2 class="banner-name"></h2>
+            <div class="banner-info__type"></div>
+            <h2 class="banner-info__name"></h2>
           </div>
           <div class="stats-panel">
             <span style="font-weight: 700; padding-bottom: 6px;">통계</span>
-            <div class="card">
+            <div class="stats-panel__card">
               <span>누적 소모 월상석 가루</span>
-              <div>
+              <div class="js-total-spent">
                 <img src="./img/pqia4y.png" height="20px"> 0
               </div>
             </div>
-            <hr>
-            <div class="card">
+            <hr class="stats-panel__divider">
+            <div class="stats-panel__card js-stats-rotation">
               <span style="font-weight: 700; text-align: center;">교대 핫라인</span>
               <span>총 영입 횟수: 0</span>
-              <span>6성: 0</span>
-              <span>5성: 0</span>
-              <span>4성: 0</span>
-              <span>3성: 0</span>
+              <span>6★: 0</span>
+              <span>5★: 0</span>
+              <span>4★: 0</span>
+              <span>3★: 0</span>
             </div>
-            <hr>
-            <div class="card">
+            <hr class="stats-panel__divider">
+            <div class="stats-panel__card js-stats-permanent">
               <span style="font-weight: 700; text-align: center;">영구 핫라인</span>
               <span>총 영입 횟수: 0</span>
-              <span>6성: 0</span>
-              <span>5성: 0</span>
-              <span>4성: 0</span>
-              <span>3성: 0</span>
+              <span>6★: 0</span>
+              <span>5★: 0</span>
+              <span>4★: 0</span>
+              <span>3★: 0</span>
             </div>
           </div>
-          <div class="stats-buttons">
-            <button>통신 기록</button>
-            <button>초기화</button>
+          <div class="stats-panel__actions">
+            <button class="stats-panel__button js-show-history">통신 기록</button>
+            <button class="stats-panel__button js-reset">초기화</button>
           </div>
         </div>
       </div>
-      <div class="main">
-        <div class="container">
-          <div class="count">
-            <span>70회 확정: 6성 특수 요원 (픽업 특수 요원)</span>
-            <span>10회 확정: 5성 이상의 특수 요원</span>
+      <div class="gacha-area">
+        <div class="gacha-area__container">
+          <div class="pity-tracker">
+            <span class="js-pity-6">70회 확정: 6성 특수 요원 (픽업 특수 요원)</span>
+            <span class="js-pity-5">10회 확정: 5성 이상의 특수 요원</span>
           </div>
-          <div class="gacha">
-            <div class="gacha-images"></div>
+          <div class="gacha-results">
+            <div class="gacha-results__grid"></div>
           </div>
-          <div class="draw-buttons">
-            <button class="draw-1">
+          <div class="draw-controls">
+            <button class="draw-controls__button js-draw-1">
               영입 1회
-              <div><img src="./img/pqia4y.png" alt="월상석" height="16px">x160</div>
+              <div class="draw-controls__cost"><img src="./img/pqia4y.png" alt="월상석" height="16px">x160</div>
             </button>
-            <button class="draw-10">
+            <button class="draw-controls__button js-draw-10">
               영입 10회
-              <div><img src="./img/pqia4y.png" alt="월상석" height="16px">x1600</div>
+              <div class="draw-controls__cost"><img src="./img/pqia4y.png" alt="월상석" height="16px">x1600</div>
             </button>
           </div>
         </div>
       </div>
     </main>
     
-    <div class="history-popup closed">
-      <div class="popup-scroll">
-        <button class="history-close-btn">×</button>
-        <div class="history-list"></div>
+    <div class="history-popup history-popup--closed">
+      <div class="history-popup__content">
+        <button class="history-popup__close-button">×</button>
+        <div class="history-popup__list"></div>
       </div>
     </div>
 
     <script>
-      (function(){
-        function applyMobileClass(){
-          const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-          const isNarrow = window.innerWidth <= 768;
-          const toMobile = (isMobileUA || isNarrow);
-          document.body.classList.toggle('mobile', toMobile);
-        }
-        window.addEventListener('resize', applyMobileClass);
-        window.addEventListener('orientationchange', applyMobileClass);
-        document.addEventListener('DOMContentLoaded', applyMobileClass);
-        applyMobileClass();
-      })();
-
       let bannerData;
       let characterMap;
 
@@ -134,30 +121,30 @@
       };
 
       const updateStatsUI = () => {
-        document.querySelector('.info-box .card div').innerHTML = `<img src="./img/pqia4y.png" height="20px"> ${gachaState.totalSpent}`;
+        document.querySelector('.js-total-spent').innerHTML = `<img src="./img/pqia4y.png" height="20px"> ${gachaState.totalSpent}`;
         
         const rotationStats = gachaState.stats["교대 핫라인"];
-        const rotationPanel = document.querySelector('.stats-panel .card:nth-of-type(2)');
+        const rotationPanel = document.querySelector('.js-stats-rotation');
         rotationPanel.children[1].textContent = `총 영입 횟수: ${rotationStats.total}`;
-        rotationPanel.children[2].textContent = `6성: ${rotationStats.star6}`;
-        rotationPanel.children[3].textContent = `5성: ${rotationStats.star5}`;
-        rotationPanel.children[4].textContent = `4성: ${rotationStats.star4}`;
-        rotationPanel.children[5].textContent = `3성: ${rotationStats.star3}`;
+        rotationPanel.children[2].textContent = `6★: ${rotationStats.star6}`;
+        rotationPanel.children[3].textContent = `5★: ${rotationStats.star5}`;
+        rotationPanel.children[4].textContent = `4★: ${rotationStats.star4}`;
+        rotationPanel.children[5].textContent = `3★: ${rotationStats.star3}`;
 
         const permanentStats = gachaState.stats["영구 핫라인"];
-        const permanentPanel = document.querySelector('.stats-panel .card:nth-of-type(3)');
+        const permanentPanel = document.querySelector('.js-stats-permanent');
         permanentPanel.children[1].textContent = `총 영입 횟수: ${permanentStats.total}`;
-        permanentPanel.children[2].textContent = `6성: ${permanentStats.star6}`;
-        permanentPanel.children[3].textContent = `5성: ${permanentStats.star5}`;
-        permanentPanel.children[4].textContent = `4성: ${permanentStats.star4}`;
-        permanentPanel.children[5].textContent = `3성: ${permanentStats.star3}`;
+        permanentPanel.children[2].textContent = `6★: ${permanentStats.star6}`;
+        permanentPanel.children[3].textContent = `5★: ${permanentStats.star5}`;
+        permanentPanel.children[4].textContent = `4★: ${permanentStats.star4}`;
+        permanentPanel.children[5].textContent = `3★: ${permanentStats.star3}`;
       };
 
       const updatePityUI = (banner) => {
         if (!banner) return;
         const pityCounters = gachaState.pity[banner.type];
-        const pity6El = document.querySelector('.count span:nth-of-type(1)');
-        const pity5El = document.querySelector('.count span:nth-of-type(2)');
+        const pity6El = document.querySelector('.js-pity-6');
+        const pity5El = document.querySelector('.js-pity-5');
         
         const pullsTo6Star = 70 - pityCounters.pity6Star;
         const pullsTo5Star = 10 - pityCounters.pity5Star;
@@ -168,18 +155,21 @@
       };
 
       const displayResults = (results) => {
-        const gachaContainer = document.querySelector('.gacha-images');
+        const gachaContainer = document.querySelector('.gacha-results__grid');
         gachaContainer.innerHTML = '';
         
         results.forEach(char => {
           const charDiv = document.createElement('div');
-          charDiv.className = `result-char ${char.rare}`;
+          // Use modifier classes for rarity
+          charDiv.className = `result-card result-card--star-${char.rare.replace('star', '')}`;
           
           const img = document.createElement('img');
+          img.className = 'result-card__image';
           img.src = `./img/character/${char.id}/0.png`; 
           img.alt = char.name;
 
           const nameSpan = document.createElement('span');
+          nameSpan.className = 'result-card__name';
           nameSpan.textContent = char.name;
           
           charDiv.appendChild(img);
@@ -198,10 +188,11 @@
         });
 
         let rarity;
+        const pity5Threshold = (Math.random() < 0.02) ? 'star6' : 'star5'; // Standard banner rates on 10-pull pity
         if (currentPity.pity6Star >= 70) {
           rarity = 'star6';
         } else if (currentPity.pity5Star >= 10) {
-          rarity = (Math.random() < 0.015) ? 'star6' : 'star5';
+          rarity = pity5Threshold;
         } else {
           const rand = Math.random() * 100;
           if (rand < banner.rates.star6) rarity = 'star6';
@@ -269,11 +260,7 @@
 
             const bannerPickupId = banner.pickup?.star6;
             if (bannerPickupId) {
-              if (character.id === bannerPickupId) {
-                pityCounters.guaranteedPickup = false;
-              } else {
-                pityCounters.guaranteedPickup = true;
-              }
+              pityCounters.guaranteedPickup = character.id !== bannerPickupId;
             }
           } else if (character.rare === 'star5') {
             pityCounters.pity5Star = 0;
@@ -289,6 +276,7 @@
       };
       
       const handleReset = () => {
+        // if (!confirm('정말로 모든 기록을 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
         gachaState = {
             totalSpent: 0,
             history: [],
@@ -307,37 +295,35 @@
         if (selectedBannerKey && bannerData) {
             updatePityUI(bannerData[selectedBannerKey]);
         }
-        document.querySelector('.gacha-images').innerHTML = '';
+        document.querySelector('.gacha-results__grid').innerHTML = '';
       };
       
       const showHistory = () => {
         const popup = document.querySelector('.history-popup');
-        const list = document.querySelector('.history-list');
-        
-        const oldItems = list.querySelectorAll('.history-item');
-        oldItems.forEach(item => item.remove());
+        const list = document.querySelector('.history-popup__list');
+        list.innerHTML = ''; // Clear previous items
 
         if (gachaState.history.length === 0) {
             const noHistoryMsg = document.createElement('p');
-            noHistoryMsg.className = 'history-item';
+            noHistoryMsg.className = 'history-popup__item';
             noHistoryMsg.textContent = '통신 기록이 없습니다.';
             list.appendChild(noHistoryMsg);
         } else {
             const fragment = document.createDocumentFragment();
             gachaState.history.forEach(item => {
                 const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
+                historyItem.className = 'history-popup__item';
 
                 const icon = document.createElement('img');
                 icon.src = `./img/character/${item.id}/icon.png`;
                 icon.alt = item.name;
-                icon.className = `history-icon ${item.rare}`;
+                icon.className = `history-popup__icon history-popup__icon--star-${item.rare.replace('star', '')}`;
 
                 const details = document.createElement('div');
-                details.className = 'history-details';
+                details.className = 'history-popup__item-details';
 
                 const name = document.createElement('span');
-                name.className = `name ${item.rare}`;
+                name.className = `name name--${item.rare}`;
                 name.textContent = item.name;
                 
                 const info = document.createElement('span');
@@ -354,9 +340,8 @@
             list.appendChild(fragment);
         }
         
-        popup.classList.remove('closed');
+        popup.classList.remove('history-popup--closed');
       };
-
 
       (async () => {
         try {
@@ -373,33 +358,33 @@
           loadState(); 
           updateStatsUI();
 
-          const buttonContainer = document.querySelector('.banner-buttons');
+          const buttonContainer = document.querySelector('.banner-selector');
           
           const showBanner = (bannerKey) => {
             const banner = bannerData[bannerKey];
             if (!banner) return;
             
-            document.querySelector('.gacha-images').innerHTML = '';
+            document.querySelector('.gacha-results__grid').innerHTML = '';
 
-            document.querySelector('.banner-type').textContent = `[ ${banner.type} ]`;
-            document.querySelector('.banner-name').textContent = banner.name;
+            document.querySelector('.banner-info__type').textContent = `[ ${banner.type} ]`;
+            document.querySelector('.banner-info__name').textContent = banner.name;
             
-            document.querySelectorAll('.banner-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.banner-btn[data-banner-key="${bannerKey}"]`).classList.add('active');
+            document.querySelectorAll('.banner-selector__button').forEach(btn => btn.classList.remove('banner-selector__button--active'));
+            document.querySelector(`.banner-selector__button[data-banner-key="${bannerKey}"]`).classList.add('banner-selector__button--active');
             
             localStorage.setItem('selectedBannerKey', bannerKey);
             
             updatePityUI(banner);
-            console.log(`배너 표시: ${banner.name} (저장 완료)`);
           };
 
           for (const bannerKey in bannerData) {
             const banner = bannerData[bannerKey];
             const button = document.createElement('button');
-            button.className = 'banner-btn';
+            button.className = 'banner-selector__button';
             button.dataset.bannerKey = bannerKey; 
             
             const img = document.createElement('img');
+            img.className = 'banner-selector__image';
             img.src = banner.img;
             img.alt = banner.name;
 
@@ -421,18 +406,18 @@
             showBanner(initialBannerKey);
           }
           
-          document.querySelector('.draw-1').addEventListener('click', () => handleDraw(1));
-          document.querySelector('.draw-10').addEventListener('click', () => handleDraw(10));
+          document.querySelector('.js-draw-1').addEventListener('click', () => handleDraw(1));
+          document.querySelector('.js-draw-10').addEventListener('click', () => handleDraw(10));
           
-          document.querySelector('.stats-buttons button:nth-of-type(1)').addEventListener('click', showHistory);
-          document.querySelector('.stats-buttons button:nth-of-type(2)').addEventListener('click', handleReset);
-          document.querySelector('.history-close-btn').addEventListener('click', () => {
-            document.querySelector('.history-popup').classList.add('closed');
+          document.querySelector('.js-show-history').addEventListener('click', showHistory);
+          document.querySelector('.js-reset').addEventListener('click', handleReset);
+          document.querySelector('.history-popup__close-button').addEventListener('click', () => {
+            document.querySelector('.history-popup').classList.add('history-popup--closed');
           });
 
         } catch (error) {
           console.error("오류가 발생했습니다:", error);
-          document.querySelector('.main').textContent = '데이터를 불러오는 데 실패했습니다.';
+          document.querySelector('.gacha-area').textContent = '데이터를 불러오는 데 실패했습니다.';
         }
       })();
     </script>
