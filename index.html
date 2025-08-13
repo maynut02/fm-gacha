@@ -27,7 +27,8 @@
             <hr class="stats-panel__divider">
             <div class="stats-panel__card js-stats-rotation">
               <span style="font-weight: 700; text-align: center;">교대 핫라인</span>
-              <span><span class="text-rarity-star6">6★</span>: 0</span>
+              <span>총 영입 횟수: 0</span>
+              <span><span class="text-rarity-star6">6★</span>: 0 (픽업: 0)</span>
               <span><span class="text-rarity-star5">5★</span>: 0</span>
               <span><span class="text-rarity-star4">4★</span>: 0</span>
               <span><span class="text-rarity-star3">3★</span>: 0</span>
@@ -35,7 +36,8 @@
             <hr class="stats-panel__divider">
             <div class="stats-panel__card js-stats-permanent">
               <span style="font-weight: 700; text-align: center;">영구 핫라인</span>
-              <span><span class="text-rarity-star6">6★</span>: 0</span>
+              <span>총 영입 횟수: 0</span>
+              <span><span class="text-rarity-star6">6★</span>: 0 (픽업: 0)</span>
               <span><span class="text-rarity-star5">5★</span>: 0</span>
               <span><span class="text-rarity-star4">4★</span>: 0</span>
               <span><span class="text-rarity-star3">3★</span>: 0</span>
@@ -85,8 +87,8 @@
         totalSpent: 0,
         history: [], 
         stats: {
-          "교대 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
-          "영구 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
+          "교대 핫라인": { total: 0, star6: 0, star6_pickup: 0, star5: 0, star4: 0, star3: 0 },
+          "영구 핫라인": { total: 0, star6: 0, star6_pickup: 0, star5: 0, star4: 0, star3: 0 },
         },
         pity: {
           "교대 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
@@ -123,17 +125,21 @@
         
         const rotationStats = gachaState.stats["교대 핫라인"];
         const rotationPanel = document.querySelector('.js-stats-rotation');
-        rotationPanel.children[1].innerHTML = `<span class="text-rarity-star6">6★</span>: ${rotationStats.star6}`;
-        rotationPanel.children[2].innerHTML = `<span class="text-rarity-star5">5★</span>: ${rotationStats.star5}`;
-        rotationPanel.children[3].innerHTML = `<span class="text-rarity-star4">4★</span>: ${rotationStats.star4}`;
-        rotationPanel.children[4].innerHTML = `<span class="text-rarity-star3">3★</span>: ${rotationStats.star3}`;
+        rotationPanel.children[1].textContent = `총 영입 횟수: ${rotationStats.total}`;
+        rotationPanel.children[2].innerHTML = `<span class="text-rarity-star6">6★</span>: ${rotationStats.star6} (픽업: ${rotationStats.star6_pickup || 0})`;
+        // rotationPanel.children[3].textContent = `(픽업: ${rotationStats.star6_pickup || 0})`;
+        rotationPanel.children[3].innerHTML = `<span class="text-rarity-star5">5★</span>: ${rotationStats.star5}`;
+        rotationPanel.children[4].innerHTML = `<span class="text-rarity-star4">4★</span>: ${rotationStats.star4}`;
+        rotationPanel.children[5].innerHTML = `<span class="text-rarity-star3">3★</span>: ${rotationStats.star3}`;
 
         const permanentStats = gachaState.stats["영구 핫라인"];
         const permanentPanel = document.querySelector('.js-stats-permanent');
-        permanentPanel.children[1].innerHTML = `<span class="text-rarity-star6">6★</span>: ${permanentStats.star6}`;
-        permanentPanel.children[2].innerHTML = `<span class="text-rarity-star5">5★</span>: ${permanentStats.star5}`;
-        permanentPanel.children[3].innerHTML = `<span class="text-rarity-star4">4★</span>: ${permanentStats.star4}`;
-        permanentPanel.children[4].innerHTML = `<span class="text-rarity-star3">3★</span>: ${permanentStats.star3}`;
+        permanentPanel.children[1].textContent = `총 영입 횟수: ${permanentStats.total}`;
+        permanentPanel.children[2].innerHTML = `<span class="text-rarity-star6">6★</span>: ${permanentStats.star6} (픽업: ${permanentStats.star6_pickup || 0})`;
+        // permanentPanel.children[3].textContent = `(픽업: ${permanentStats.star6_pickup || 0})`;
+        permanentPanel.children[3].innerHTML = `<span class="text-rarity-star5">5★</span>: ${permanentStats.star5}`;
+        permanentPanel.children[4].innerHTML = `<span class="text-rarity-star4">4★</span>: ${permanentStats.star4}`;
+        permanentPanel.children[5].innerHTML = `<span class="text-rarity-star3">3★</span>: ${permanentStats.star3}`;
       };
 
       const updatePityUI = (banner) => {
@@ -266,6 +272,13 @@
             pityCounters.pity6Star = 0;
             if (banner.pickup?.star6) {
               pityCounters.guaranteedPickup = character.id !== banner.pickup.star6;
+
+              if (character.id === banner.pickup.star6) {
+                if (!bannerTypeStats.star6_pickup) {
+                    bannerTypeStats.star6_pickup = 0;
+                }
+                bannerTypeStats.star6_pickup++;
+              }
             }
           } else if (character.rare === 'star5') {
             pityCounters.pity5Star = 0;
@@ -291,8 +304,8 @@
           totalSpent: 0,
           history: [],
           stats: {
-            "교대 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
-            "영구 핫라인": { total: 0, star6: 0, star5: 0, star4: 0, star3: 0 },
+            "교대 핫라인": { total: 0, star6: 0, star6_pickup: 0, star5: 0, star4: 0, star3: 0 },
+            "영구 핫라인": { total: 0, star6: 0, star6_pickup: 0, star5: 0, star4: 0, star3: 0 },
           },
           pity: {
             "교대 핫라인": { pity5Star: 0, pity6Star: 0, guaranteedPickup: false },
@@ -407,8 +420,8 @@
               <h3 class="detail-section__title">▸ 영입 확률 설명</h3>
               <p>이번 시즌 영입 <span style="color: orange;">${banner.name}</span>에서 각 희귀 특수 요원의 영입 확률은 다음과 같습니다.</p>
               <ul>
-                <li>「<span class="text-rarity-star6">6★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star6}%</span>로, 천장 메커니즘을 포함한 종합 확률은 <span style="color: orange;">2.39%</span>입니다. 이 중 ${star6PickupChar.name}의 영입 확률이 증가하며 6성 특수 요원 영입 확률의 50%를 차지합니다.</li>
-                <li>「<span class="text-rarity-star5">5★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star5}%</span>입니다. 이 중 ${star5PickupNames.join(', ')}의 영입 확률이 증가하며 5성 특수 요원 영입 확률의 <span style="color: orange;">50%</span>를 차지합니다.</li>
+                <li>「<span class="text-rarity-star6">6★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star6}%</span>로, 천장 메커니즘을 포함한 종합 확률은 <span style="color: orange;">2.39%</span>입니다. 이 중 <span class="text-rarity-star6">${star6PickupChar.name}</span>의 영입 확률이 증가하며 6성 특수 요원 영입 확률의 50%를 차지합니다.</li>
+                <li>「<span class="text-rarity-star5">5★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star5}%</span>입니다. 이 중 <span class="text-rarity-star5">${star5PickupNames.join(', ')}</span>의 영입 확률이 증가하며 5성 특수 요원 영입 확률의 <span style="color: orange;">50%</span>를 차지합니다.</li>
                 <li>「<span class="text-rarity-star4">4★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star4}%</span>입니다.</li>
                 <li>「<span class="text-rarity-star3">3★</span> 특수 요원」의 기본 확률은 <span style="color: orange;">${banner.rates.star3}%</span>입니다.</li>
               </ul>
@@ -553,11 +566,11 @@
               gachaContainer.classList.remove('hidden');
             } else if (viewName === 'history') {
               historyContainer.classList.remove('hidden');
-              toggleHistoryButton.textContent = '영입하기';
+              toggleHistoryButton.textContent = '통신 기록 닫기';
               renderHistory();
             } else if (viewName === 'details') {
               detailContainer.classList.remove('hidden');
-              toggleDetailsButton.textContent = '영입하기';
+              toggleDetailsButton.textContent = '상세정보 닫기';
               renderDetails();
             }
           }
