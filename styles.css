@@ -46,6 +46,10 @@ body {
   min-width: 210px;
 }
 
+.mobile .sidebar {
+  padding: 0;
+}
+
 main {
   flex: 1;
   display: flex;
@@ -64,7 +68,7 @@ main {
 }
 
 .mobile .main {
-  padding-left: 15px;
+  padding: 10px;
 }
 
 .main .container {
@@ -81,11 +85,12 @@ main {
   gap: 15px;
   padding: 15px;
   padding-bottom: 0;
+  overflow-x: auto;
 }
 
 .mobile .banner-buttons {
-  overflow-x: auto;
-  padding-bottom: 15px;
+  padding: 10px;
+  gap: 10px;
 }
 
 .banner-buttons::-webkit-scrollbar {
@@ -116,7 +121,11 @@ main {
 }
 
 .banner-btn img {
-  height: var(--banner-h);
+  height: 80px;
+}
+
+.mobile .banner-btn img {
+  height: 65px;
 }
 
 .info-box {
@@ -139,15 +148,27 @@ main {
   text-align: center;
 }
 
+.mobile .banner-type {
+  font-size: 12px;
+}
+
 .banner-name {
   width: 100%;
   margin: 0;
   text-align: center;
 }
 
+.mobile .banner-name {
+  font-size: 22px;
+}
+
 .stats-panel {
   display: flex;
   flex-direction: column;
+}
+
+.mobile .stats-panel {
+  padding: 0 10px;
 }
 
 .stats-panel hr {
@@ -195,11 +216,21 @@ main {
   padding: 20px;
 }
 
+.mobile .container .count {
+  padding: 10px;
+  font-size: 12px;
+}
+
 .container .draw-buttons {
   padding: 20px;
   display: flex;
   gap: 20px;
   justify-content: end;
+}
+
+.mobile .container .draw-buttons {
+  padding: 10px;
+  gap: 10px;
 }
 
 .draw-buttons button {
@@ -221,6 +252,7 @@ main {
 
 .mobile .draw-buttons button {
   font-size: 14px;
+  height: 44px;
 }
 
 .mobile .draw-buttons button div {
@@ -254,11 +286,19 @@ main {
   padding: 0 20px;
 }
 
+.mobile .container .gacha {
+  padding: 10px;
+}
+
 .container .gacha-images {
   display: grid;
   grid-template-columns: repeat(5, minmax(auto, 130px));
   gap: 20px;
   align-items: end;
+}
+
+.mobile .container .gacha-images {
+  gap: 8px;
 }
 
 .gacha-images .result-char {
@@ -299,7 +339,6 @@ main {
 
 .container .gacha img {
   width: 100%;
-  
 }
 
 .result-char span {
@@ -311,7 +350,9 @@ main {
 }
 
 .mobile .result-char span {
-  font-size: 12px;
+  font-size: 10px;
+  top: 3px;
+  left: 6px;
 }
 
 .history-popup {
